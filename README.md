@@ -26,13 +26,59 @@
 
 Blog: TypeScript Concepts Explained (Bangla)
 
-১) interface এবং type এর মধ্যে পার্থক্য  
-TypeScript-এ interface এবং type দুইটাই কাস্টম টাইপ বানাতে ব্যবহার হয়।  
-interface object-এর কাঠামো বর্ণনা করতে বেশি উপযোগী এবং extends ব্যবহার করে বাড়ানো যায়। একই নামে আবার interface লিখলে declaration merging হয়।  
-type এর flexibility বেশি, কারণ union type, primitive alias, tuple, template literal সবকিছু type দিয়ে করা যায়। তবে type declaration merge হয় না।
+# TypeScript Notes
 
-২) any, unknown এবং never এর পার্থক্য  
-any সবচেয়ে কম নিরাপদ, কারণ এতে TypeScript টাইপ চেক করা বন্ধ করে দেয়। unknown হলো safer version, এতে মান রাখা যায় কিন্তু ব্যবহার করার সময় টাইপ চেক করতে হয়। never ব্যবহার হয় এমন ফাংশনের ক্ষেত্রে যেটা কখনো return করে না, যেমন error throw করে বা infinite loop।
+## ১) Interface vs Type
+
+TypeScript-এ **interface** আর **type** দুটোই কাস্টম টাইপ বানানোর জন্য, কিন্তু কাজের জায়গায় অনুভূতি আলাদা।
+
+* **interface** মূলত অবজেক্টের কাঠামো বা শেপ বোঝাতে সবচেয়ে প্রাকৃতিক; ক্লাসের সাথে খুব ভালোভাবে কাজ করে এবং `extends` দিয়ে সহজে বড় করা যায়।
+* interface-এর বিশেষ সুবিধা হলো **declaration merging**, অর্থাৎ একই নামে দুইবার interface লিখলে TypeScript দুটোকে জোড়া লাগিয়ে একটাই বানিয়ে নেয়—লাইব্রেরি বা তৃতীয় পক্ষের টাইপ extend করতে দারুণ কাজে লাগে।
+* অন্যদিকে **type** অনেক বেশি flexible: union, tuple, primitive alias, template literal—সব রকম টাইপ `type` দিয়ে বানানো যায়।
+* type দিয়েও object বানানো যায়, কিন্তু **type কখনো merge হয় না**, একই নামে দুইবার লিখলে সরাসরি error।
+* বাস্তবে object structure-এর জন্য interface বেশি natural লাগে, আর complex টাইপ, utility টাইপ, বা union/tuple এর জন্য type সেরা।
+
+```ts
+// interface with merging
+interface User {
+  id: number;
+}
+interface User {
+  name: string;
+}
+
+const u: User = { id: 1, name: "Rakib" };
+
+// type for union/tuple
+type Result = "ok" | "fail";
+type Point = [number, number];
+```
+
+---
+
+## ২) any, unknown, never
+
+* **any** হচ্ছে পুরো TypeScript এ সেফটি বন্ধ করে দেওয়ার মত—যা খুশি assign করা যায়, যা খুশি কল করা যায়, ফলে compile-time কোনো error দেখায় না, কিন্তু runtime-এ crash হবার ভয় থাকে সবচেয়ে বেশি।
+* **unknown** দেখতে any-এর মতোই flexible, কিন্তু এটা safer কারণ unknown মান ব্যবহার করার আগে টাইপ চেক করতে বাধ্য হতে হয়; সরাসরি ব্যবহার করলে TypeScript error দেয়। যখন dynamic বা uncertain ডেটা পাওয়া যায়—যেমন API response—তখন unknown ভালো পছন্দ।
+* **never** হলো সেই টাইপ যেটা কোনো ভ্যালু কখনো রিটার্নই করে না, অর্থাৎ যে ফাংশন error ছোড়ে বা infinite loop চালায়, সেটা কখনো নিজের কাজ শেষ করে না।
+* never প্রায়ই **exhaustive check** এ কাজে লাগে—যখন তুমি চাইছো future এ কোনো case ভুলে গেলে TypeScript যেন সেটা ধরে।
+
+```ts
+// any: no safety
+let a: any = "hello";
+a.toFixed(); // no error, runtime এ crash হতে পারে
+
+// unknown: safe but needs checking
+let v: unknown = "text";
+if (typeof v === "string") {
+  console.log(v.toUpperCase()); // safe
+}
+
+// never: function that never returns
+function crash(msg: string): never {
+  throw new Error(msg);
+}
+```
 
 --------------------------------------------------------------------------------
 
