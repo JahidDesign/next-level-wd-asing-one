@@ -1,28 +1,43 @@
-type Formattable = string | number | boolean;
+// ===============================
+// Problem 1
+// ===============================
 
-function formatValue(value: Formattable): Formattable {
+export function formatValue(value: string | number | boolean): string | number | boolean {
   if (typeof value === "string") {
     return value.toUpperCase();
-  } else if (typeof value === "number") {
+  }
+  if (typeof value === "number") {
     return value * 10;
-  } else {
+  }
+  if (typeof value === "boolean") {
     return !value;
   }
+
+  throw new Error("Unsupported type");
 }
 
-function getLength(value: string | any[]): number {
+
+// ===============================
+// Problem 2
+// ===============================
+
+export function getLength(value: string | any[]): number {
   if (typeof value === "string") {
     return value.length;
   }
-
   if (Array.isArray(value)) {
     return value.length;
   }
 
-  return 0;
+  throw new Error("Invalid type");
 }
 
-class Person {
+
+// ===============================
+// Problem 3
+// ===============================
+
+export class Person {
   name: string;
   age: number;
 
@@ -36,99 +51,112 @@ class Person {
   }
 }
 
-type RatedItem = {
+
+// ===============================
+// Problem 4
+// ===============================
+
+export type Item = {
   title: string;
   rating: number;
 };
 
-function filterByRating(items: RatedItem[]): RatedItem[] {
-  const result: RatedItem[] = [];
-
-  for (let i = 0; i < items.length; i++) {
-    if (items[i].rating >= 4) {
-      result.push(items[i]);
-    }
-  }
-
-  return result;
+export function filterByRating(items: Item[]): Item[] {
+  return items.filter(item => item.rating >= 4);
 }
 
-type User = {
+
+// ===============================
+// Problem 5
+// ===============================
+
+export type User = {
   id: number;
   name: string;
   email: string;
   isActive: boolean;
 };
 
-function filterActiveUsers(users: User[]): User[] {
-  const activeUsers: User[] = [];
-
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].isActive) {
-      activeUsers.push(users[i]);
-    }
-  }
-
-  return activeUsers;
+export function filterActiveUsers(users: User[]): User[] {
+  return users.filter(user => user.isActive);
 }
 
-interface Book {
+
+// ===============================
+// Problem 6
+// ===============================
+
+export interface Book {
   title: string;
   author: string;
   publishedYear: number;
   isAvailable: boolean;
 }
 
-function printBookDetails(book: Book): string {
-  const availabilityText = book.isAvailable ? "Yes" : "No";
-  return `Title: ${book.title}, Author: ${book.author}, Published: ${book.publishedYear}, Available: ${availabilityText}`;
+export function printBookDetails(book: Book): string {
+  const availability = book.isAvailable ? "Yes" : "No";
+  return `Title: ${book.title}, Author: ${book.author}, Published: ${book.publishedYear}, Available: ${availability}`;
 }
 
-function getUniqueValues<T extends string | number>(
-  firstArray: T[],
-  secondArray: T[]
-): T[] {
-  const uniqueValues: T[] = [];
 
-  const addIfNotExists = (value: T): void => {
-    let found = false;
+// ===============================
+// Problem 7
+// ===============================
 
-    for (let i = 0; i < uniqueValues.length; i++) {
-      if (uniqueValues[i] === value) {
-        found = true;
-        break;
-      }
-    }
-
-    if (!found) {
-      uniqueValues[uniqueValues.length] = value;
-    }
-  };
-
-  for (let i = 0; i < firstArray.length; i++) {
-    addIfNotExists(firstArray[i]);
+function exists(arr: (string | number)[], value: string | number): boolean {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === value) return true;
   }
-
-  for (let i = 0; i < secondArray.length; i++) {
-    addIfNotExists(secondArray[i]);
-  }
-
-  return uniqueValues;
+  return false;
 }
 
-type Product = {
+export function getUniqueValues(
+  arr1: (string | number)[],
+  arr2: (string | number)[]
+): (string | number)[] {
+
+  const result: (string | number)[] = [];
+
+  for (let i = 0; i < arr1.length; i++) {
+    if (!exists(result, arr1[i])) {
+      result.push(arr1[i]);
+    }
+  }
+
+  for (let i = 0; i < arr2.length; i++) {
+    if (!exists(result, arr2[i])) {
+      result.push(arr2[i]);
+    }
+  }
+
+  return result;
+}
+
+
+// ===============================
+// Problem 8
+// ===============================
+
+export type Product = {
   name: string;
   price: number;
   quantity: number;
   discount?: number;
 };
 
-function calculateTotalPrice(products: Product[]): number {
-  return products.reduce((total, product) => {
-    const basePrice = product.price * product.quantity;
-    const discountValue =
-      product.discount !== undefined ? (basePrice * product.discount) / 100 : 0;
-    const finalPrice = basePrice - discountValue;
-    return total + finalPrice;
-  }, 0);
+export function calculateTotalPrice(products: Product[]): number {
+  if (products.length === 0) return 0;
+
+  return products
+    .map(product => {
+      const base = product.price * product.quantity;
+
+      if (product.discount) {
+        const discountAmount = base * (product.discount / 100);
+        return base - discountAmount;
+      }
+
+      return base;
+    })
+    .reduce((total, value) => total + value, 0);
 }

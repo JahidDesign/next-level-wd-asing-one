@@ -1,26 +1,48 @@
-type Formattable = string | number | boolean;
+// ===============================
+// Problem 1
+// ===============================
 
-function formatValue(value: Formattable): Formattable {
+function formatValue(value: string | number | boolean): string | number | boolean {
   if (typeof value === "string") {
     return value.toUpperCase();
-  } else if (typeof value === "number") {
+  }
+  if (typeof value === "number") {
     return value * 10;
-  } else {
+  }
+  if (typeof value === "boolean") {
     return !value;
   }
+
+  throw new Error("Unsupported type");
 }
+
+console.log(formatValue("hello"));
+console.log(formatValue(5));
+console.log(formatValue(true));
+
+
+// ===============================
+// Problem 2
+// ===============================
 
 function getLength(value: string | any[]): number {
   if (typeof value === "string") {
     return value.length;
   }
-
   if (Array.isArray(value)) {
     return value.length;
   }
 
-  return 0;
+  throw new Error("Invalid type");
 }
+
+console.log(getLength("typescript"));
+console.log(getLength([10, 20, 30, 40]));
+
+
+// ===============================
+// Problem 3
+// ===============================
 
 class Person {
   name: string;
@@ -36,22 +58,39 @@ class Person {
   }
 }
 
-type RatedItem = {
+const person1 = new Person("John Doe", 30);
+console.log(person1.getDetails());
+
+const person2 = new Person("Alice", 25);
+console.log(person2.getDetails());
+
+
+// ===============================
+// Problem 4
+// ===============================
+
+type Item = {
   title: string;
   rating: number;
 };
 
-function filterByRating(items: RatedItem[]): RatedItem[] {
-  const result: RatedItem[] = [];
-
-  for (let i = 0; i < items.length; i++) {
-    if (items[i].rating >= 4) {
-      result.push(items[i]);
-    }
-  }
-
-  return result;
+function filterByRating(items: Item[]): Item[] {
+  return items.filter(item => item.rating >= 4);
 }
+
+const books = [
+  { title: "Book A", rating: 4.5 },
+  { title: "Book B", rating: 3.2 },
+  { title: "Book C", rating: 5.0 },
+];
+
+console.log(filterByRating(books));
+
+
+
+// ===============================
+// Problem 5
+// ===============================
 
 type User = {
   id: number;
@@ -61,16 +100,22 @@ type User = {
 };
 
 function filterActiveUsers(users: User[]): User[] {
-  const activeUsers: User[] = [];
-
-  for (let i = 0; i < users.length; i++) {
-    if (users[i].isActive) {
-      activeUsers.push(users[i]);
-    }
-  }
-
-  return activeUsers;
+  return users.filter(user => user.isActive);
 }
+
+const users = [
+  { id: 1, name: "Rakib", email: "rakib@example.com", isActive: true },
+  { id: 2, name: "Asha", email: "asha@example.com", isActive: false },
+  { id: 3, name: "Rumi", email: "rumi@example.com", isActive: true },
+];
+
+console.log(filterActiveUsers(users));
+
+
+
+// ===============================
+// Problem 6
+// ===============================
 
 interface Book {
   title: string;
@@ -79,42 +124,63 @@ interface Book {
   isAvailable: boolean;
 }
 
-function printBookDetails(book: Book): string {
-  const availabilityText = book.isAvailable ? "Yes" : "No";
-  return `Title: ${book.title}, Author: ${book.author}, Published: ${book.publishedYear}, Available: ${availabilityText}`;
+function printBookDetails(book: Book): void {
+  const availability = book.isAvailable ? "Yes" : "No";
+  console.log(
+    `Title: ${book.title}, Author: ${book.author}, Published: ${book.publishedYear}, Available: ${availability}`
+  );
 }
 
-function getUniqueValues<T extends string | number>(
-  firstArray: T[],
-  secondArray: T[]
-): T[] {
-  const uniqueValues: T[] = [];
+const myBook: Book = {
+  title: "The Great Gatsby",
+  author: "F. Scott Fitzgerald",
+  publishedYear: 1925,
+  isAvailable: true,
+};
 
-  const addIfNotExists = (value: T): void => {
-    let found = false;
+printBookDetails(myBook);
 
-    for (let i = 0; i < uniqueValues.length; i++) {
-      if (uniqueValues[i] === value) {
-        found = true;
-        break;
-      }
-    }
 
-    if (!found) {
-      uniqueValues[uniqueValues.length] = value;
-    }
-  };
 
-  for (let i = 0; i < firstArray.length; i++) {
-    addIfNotExists(firstArray[i]);
+// ===============================
+// Problem 7
+// ===============================
+
+function exists(arr: (string | number)[], value: string | number): boolean {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === value) return true;
   }
-
-  for (let i = 0; i < secondArray.length; i++) {
-    addIfNotExists(secondArray[i]);
-  }
-
-  return uniqueValues;
+  return false;
 }
+
+function getUniqueValues(arr1: (string | number)[], arr2: (string | number)[]): (string | number)[] {
+  const result: (string | number)[] = [];
+
+  for (let i = 0; i < arr1.length; i++) {
+    if (!exists(result, arr1[i])) {
+      result.push(arr1[i]);
+    }
+  }
+
+  for (let i = 0; i < arr2.length; i++) {
+    if (!exists(result, arr2[i])) {
+      result.push(arr2[i]);
+    }
+  }
+
+  return result;
+}
+
+const array1 = [1, 2, 3, 4, 5];
+const array2 = [3, 4, 5, 6, 7];
+
+console.log(getUniqueValues(array1, array2));
+
+
+
+// ===============================
+// Problem 8
+// ===============================
 
 type Product = {
   name: string;
@@ -124,59 +190,26 @@ type Product = {
 };
 
 function calculateTotalPrice(products: Product[]): number {
-  return products.reduce((total, product) => {
-    const basePrice = product.price * product.quantity;
-    const discountValue =
-      product.discount !== undefined ? (basePrice * product.discount) / 100 : 0;
-    const finalPrice = basePrice - discountValue;
-    return total + finalPrice;
-  }, 0);
+  if (products.length === 0) return 0;
+
+  return products
+    .map(product => {
+      const base = product.price * product.quantity;
+
+      if (product.discount) {
+        const discountAmount = base * (product.discount / 100);
+        return base - discountAmount;
+      }
+
+      return base;
+    })
+    .reduce((total, value) => total + value, 0);
 }
-
-/* ------------------------------
-   Console Log Test Section
---------------------------------*/
-
-console.log(formatValue("hello"));
-console.log(formatValue(5));
-console.log(formatValue(true));
-
-console.log(getLength("typescript"));
-console.log(getLength([10, 20, 30, 40]));
-
-const p1 = new Person("John Doe", 30);
-console.log(p1.getDetails());
-
-const p2 = new Person("Alice", 25);
-console.log(p2.getDetails());
-
-const items = [
-  { title: "Book A", rating: 4.5 },
-  { title: "Book B", rating: 3.2 },
-  { title: "Book C", rating: 5.0 },
-];
-console.log(filterByRating(items));
-
-const users = [
-  { id: 1, name: "Rakib", email: "rakib@example.com", isActive: true },
-  { id: 2, name: "Asha", email: "asha@example.com", isActive: false },
-  { id: 3, name: "Rumi", email: "rumi@example.com", isActive: true },
-];
-console.log(filterActiveUsers(users));
-
-const myBook: Book = {
-  title: "The Great Gatsby",
-  author: "F. Scott Fitzgerald",
-  publishedYear: 1925,
-  isAvailable: true,
-};
-console.log(printBookDetails(myBook));
-
-console.log(getUniqueValues([1, 2, 3, 4, 5], [3, 4, 5, 6, 7]));
 
 const products = [
   { name: "Pen", price: 10, quantity: 2 },
   { name: "Notebook", price: 25, quantity: 3, discount: 10 },
   { name: "Bag", price: 50, quantity: 1, discount: 20 },
 ];
-console.log(calculateTotalPrice(products));
+
+console.log(calculateTotalPrice(products)); // 127.5
