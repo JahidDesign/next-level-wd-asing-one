@@ -4,7 +4,7 @@
 
 --------------------------------------------------------------------------------
 
-আমি Problem 1–8 প্রতিটিকে TypeScript-এর সঠিক টাইপিং, union type, interface, narrowing এবং array method ব্যবহার করে সমাধান করেছি। প্রতিটি ফাংশনের রিটার্ন ভ্যালু sample output অনুযায়ী ১০০% মিল রেখে লেখা হয়েছে।
+আমি Problem 1–8 প্রতিটিকে TypeScript-এর সঠিক টাইপিং, union type, interface, narrowing এবং array method ব্যবহার করে সমাধান করেছি। প্রতিটি ফাংশনের রিটার্ন ভ্যালু sample output অনুযায়ী লেখা হয়েছে।
 
 ১) প্রথম সমস্যায় আমি formatValue লিখেছি যা string হলে uppercase রিটার্ন করে, number হলে ১০ গুণ রিটার্ন করে এবং boolean হলে true/false উল্টো করে রিটার্ন করে।
 
