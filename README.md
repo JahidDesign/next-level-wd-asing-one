@@ -1,117 +1,43 @@
-# 🌟 TypeScript Assignment — Problem Solving & Technical Blog (Bangla)
+# TypeScript Assignment – Problem Solving & Blog (Bangla)
 
-আমি এই প্রজেক্টে TypeScript-এর **৮টি সমস্যা সমাধান করেছি**,  
-সাথে লিখেছি **দুটি ইন্টারভিউ-স্ট্যান্ডার্ড TypeScript ব্লগ (বাংলায়)**।
+আমি এই অ্যাসাইনমেন্টে TypeScript-এর ৮টি সমস্যা সমাধান করেছি এবং দুটি ইন্টারভিউ-স্ট্যান্ডার্ড ব্লগ লিখেছি বাংলায়। এখানে সবকিছু এক ফাইলে দেওয়া হলো—README, Blog, solution.ts, index.ts এবং test.ts সহ।
 
-সমস্ত কোড clean, readable এবং exact output formatting অনুসরণ করে লেখা।
+--------------------------------------------------------------------------------
 
----
+আমি Problem 1–8 প্রতিটিকে TypeScript-এর সঠিক টাইপিং, union type, interface, narrowing এবং array method ব্যবহার করে সমাধান করেছি। প্রতিটি ফাংশনের রিটার্ন ভ্যালু sample output অনুযায়ী ১০০% মিল রেখে লেখা হয়েছে।
 
-## 📁 Project Structure (One File Version)
+১) প্রথম সমস্যায় আমি formatValue লিখেছি যা string হলে uppercase রিটার্ন করে, number হলে ১০ গুণ রিটার্ন করে এবং boolean হলে true/false উল্টো করে রিটার্ন করে।
 
-এই এক ফাইলেই সব কিছু দেওয়া হলো:
+২) দ্বিতীয় সমস্যায় getLength ফাংশন string অথবা array যেটাই দেওয়া হোক length রিটার্ন করে।
 
-✔ README  
-✔ Blog  
-✔ solution.ts  
-✔ test.ts  
-✔ index.ts  
+৩) তৃতীয় সমস্যায় Person ক্লাস তৈরি করেছি যার getDetails() ফাংশন ঠিক "Name: X, Age: Y" এই ফরম্যাটে রিটার্ন করে।
 
----
+৪) filterByRating ব্যবহার করে rating ≥ 4 এমন item গুলো ফিল্টার করা হয়েছে।
 
-# 🧩 Problem Overview (My Summary)
+৫) filterActiveUsers শুধু active user গুলো নতুন অ্যারেতে রিটার্ন করে।
 
-### ✔ Problem 1  
-string → uppercase  
-number → *10  
-boolean → !value  
+৬) Book interface এর সাহায্যে বইয়ের তথ্য সঠিক ফরম্যাটে রিটার্ন করা হয়েছে।
 
-### ✔ Problem 2  
-string বা array → length return
+৭) getUniqueValues কোনো built-in method ছাড়া manually duplicate ছাড়া unique value merge করে।
 
-### ✔ Problem 3  
-Person ক্লাস → getDetails(): `"Name: X, Age: Y"`
+৮) calculateTotalPrice প্রতিটি product-এর price × quantity হিসাব করে discount থাকলে তা বাদ দিয়ে মোট দাম বের করে।
 
-### ✔ Problem 4  
-rating ≥ 4 filter
+--------------------------------------------------------------------------------
 
-### ✔ Problem 5  
-isActive === true user list return
+Blog: TypeScript Concepts Explained (Bangla)
 
-### ✔ Problem 6  
-Book interface + formatted return
+১) interface এবং type এর মধ্যে পার্থক্য  
+TypeScript-এ interface এবং type দুইটাই কাস্টম টাইপ বানাতে ব্যবহার হয়।  
+interface object-এর কাঠামো বর্ণনা করতে বেশি উপযোগী এবং extends ব্যবহার করে বাড়ানো যায়। একই নামে আবার interface লিখলে declaration merging হয়।  
+type এর flexibility বেশি, কারণ union type, primitive alias, tuple, template literal সবকিছু type দিয়ে করা যায়। তবে type declaration merge হয় না।
 
-### ✔ Problem 7  
-unique merge without built-in methods
+২) any, unknown এবং never এর পার্থক্য  
+any সবচেয়ে কম নিরাপদ, কারণ এতে TypeScript টাইপ চেক করা বন্ধ করে দেয়। unknown হলো safer versión, এতে মান রাখা যায় কিন্তু ব্যবহার করার সময় টাইপ চেক করতে হয়। never ব্যবহার হয় এমন ফাংশনের ক্ষেত্রে যেটা কখনো return করে না, যেমন error throw করে বা infinite loop।
 
-### ✔ Problem 8  
-price × quantity + discount total
+--------------------------------------------------------------------------------
 
----
+solution.ts
 
-# ✍️ Technical Blog (বাংলায়)
-
-## ⭐ ১) interface vs type (আমার ব্যাখ্যা)
-
-interface ও type — দুটোই object shape define করে, তবে কিছু গুরুত্বপূর্ণ পার্থক্য আছে।
-
-### 🔹 Inheritance
-
-```ts
-interface User { name: string; age: number; }
-interface Admin extends User { role: string; }
-```
-
-```ts
-type UserT = { name: string; age: number };
-type AdminT = UserT & { role: string };
-```
-
-### 🔹 Declaration Merging (interface only)
-
-```ts
-interface A { name: string }
-interface A { age: number }
-```
-
-type এ error.
-
-### 🔹 type বেশি flexible
-
-```ts
-type ID = string | number;
-```
-
-### 🔥 সারসংক্ষেপ
-
-| বিষয় | interface | type |
-|------|-----------|------|
-| extends | ✔ | ✔ (& দিয়ে) |
-| merge | ✔ | ✖ |
-| union | ✖ | ✔ |
-| flexibility | কম | বেশি |
-
----
-
-## ⭐ ২) any, unknown, never (আমার ব্যাখ্যা)
-
-### 🔹 any — unsafe  
-TypeScript check বন্ধ।
-
-### 🔹 unknown — safer any  
-ব্যবহার করতে type-check লাগে।
-
-### 🔹 never — return করে না  
-
-```ts
-function boom(): never { throw new Error(); }
-```
-
----
-
-# 🧾 FULL CODE — solution.ts
-
-```ts
 function formatValue(value: string | number | boolean): string | number | boolean {
   if (typeof value === "string") return value.toUpperCase();
   if (typeof value === "number") return value * 10;
@@ -193,13 +119,11 @@ function calculateTotalPrice(products: Product[]): number {
     })
     .reduce((sum, value) => sum + value, 0);
 }
-```
 
----
+--------------------------------------------------------------------------------
 
-# 🧪 FULL CODE — test.ts
+test.ts
 
-```ts
 console.log(formatValue("hello"));
 console.log(formatValue(5));
 console.log(formatValue(true));
@@ -233,15 +157,11 @@ console.log(calculateTotalPrice([
   { name: "Pen", price: 10, quantity: 2 },
   { name: "Notebook", price: 25, quantity: 1, discount: 10 }
 ]));
-```
 
----
+--------------------------------------------------------------------------------
 
-# ▶ FULL CODE — index.ts
+index.ts
 
-```ts
 export * from "./solution";
-```
 
-
-
+--------------------------------------------------------------------------------
