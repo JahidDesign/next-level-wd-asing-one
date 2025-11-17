@@ -1,6 +1,4 @@
-// ===============================
-// Problem 1
-// ===============================
+
 
 export function formatValue(value: string | number | boolean): string | number | boolean {
   if (typeof value === "string") {
@@ -17,9 +15,7 @@ export function formatValue(value: string | number | boolean): string | number |
 }
 
 
-// ===============================
-// Problem 2
-// ===============================
+
 
 export function getLength(value: string | any[]): number {
   if (typeof value === "string") {
@@ -33,9 +29,7 @@ export function getLength(value: string | any[]): number {
 }
 
 
-// ===============================
-// Problem 3
-// ===============================
+
 
 export class Person {
   name: string;
@@ -52,9 +46,7 @@ export class Person {
 }
 
 
-// ===============================
-// Problem 4
-// ===============================
+
 
 export type Item = {
   title: string;
@@ -66,9 +58,7 @@ export function filterByRating(items: Item[]): Item[] {
 }
 
 
-// ===============================
-// Problem 5
-// ===============================
+
 
 export type User = {
   id: number;
@@ -82,9 +72,7 @@ export function filterActiveUsers(users: User[]): User[] {
 }
 
 
-// ===============================
-// Problem 6
-// ===============================
+
 
 export interface Book {
   title: string;
@@ -99,9 +87,7 @@ export function printBookDetails(book: Book): string {
 }
 
 
-// ===============================
-// Problem 7
-// ===============================
+
 
 function exists(arr: (string | number)[], value: string | number): boolean {
   for (let i = 0; i < arr.length; i++) {
@@ -133,9 +119,7 @@ export function getUniqueValues(
 }
 
 
-// ===============================
-// Problem 8
-// ===============================
+
 
 export type Product = {
   name: string;

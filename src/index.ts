@@ -1,6 +1,4 @@
-// ===============================
-// Problem 1
-// ===============================
+
 
 function formatValue(value: string | number | boolean): string | number | boolean {
   if (typeof value === "string") {
@@ -21,9 +19,7 @@ console.log(formatValue(5));
 console.log(formatValue(true));
 
 
-// ===============================
-// Problem 2
-// ===============================
+
 
 function getLength(value: string | any[]): number {
   if (typeof value === "string") {
@@ -40,9 +36,7 @@ console.log(getLength("typescript"));
 console.log(getLength([10, 20, 30, 40]));
 
 
-// ===============================
-// Problem 3
-// ===============================
+
 
 class Person {
   name: string;
@@ -65,9 +59,7 @@ const person2 = new Person("Alice", 25);
 console.log(person2.getDetails());
 
 
-// ===============================
-// Problem 4
-// ===============================
+
 
 type Item = {
   title: string;
@@ -88,9 +80,7 @@ console.log(filterByRating(books));
 
 
 
-// ===============================
-// Problem 5
-// ===============================
+
 
 type User = {
   id: number;
@@ -113,9 +103,7 @@ console.log(filterActiveUsers(users));
 
 
 
-// ===============================
-// Problem 6
-// ===============================
+
 
 interface Book {
   title: string;
@@ -142,9 +130,7 @@ printBookDetails(myBook);
 
 
 
-// ===============================
-// Problem 7
-// ===============================
+
 
 function exists(arr: (string | number)[], value: string | number): boolean {
   for (let i = 0; i < arr.length; i++) {
@@ -178,9 +164,7 @@ console.log(getUniqueValues(array1, array2));
 
 
 
-// ===============================
-// Problem 8
-// ===============================
+
 
 type Product = {
   name: string;
